@@ -1,11 +1,10 @@
 package Control;
 
 import Entity.Entity;
-import static GameRunner.RunBomberman.*;
+import static GameRunner.RunBomberman.*; // id_objects[][] phải có sẵn
 
 public class Blocked {
 
-    // Các tile trong map
     public static class Tile {
         public static final int EMPTY = 0;
         public static final int WALL = 1;
@@ -16,27 +15,29 @@ public class Blocked {
         public static final int ITEM = 8;
     }
 
-    // -------------------- UTILITIES --------------------
+    private static final int TILE_SIZE = 32; // Kích thước mỗi tile trong map
 
-    // Kiểm tra vượt map
+
+    // Kiểm tra tọa độ ngoài map
     private static boolean outOfMap(int x, int y) {
         return x < 0 || y < 0 || x >= id_objects.length || y >= id_objects[0].length;
     }
 
-    // Lấy tile an toàn
+    // Lấy tile an toàn tại (x, y)
     private static int safeTileAt(int x, int y) {
         if (outOfMap(x, y)) return Tile.WALL;
         return id_objects[x][y];
     }
 
-    // Kiểm tra có thể di chuyển đến tile (dx, dy)
+    // Kiểm tra entity có thể đi đến tile (dx, dy)
     private static boolean canMove(Entity e, int dx, int dy) {
-        int x = e.getX() / 32 + dx;
-        int y = e.getY() / 32 + dy;
-        return safeTileAt(x, y) == Tile.EMPTY;
+        int x = e.getX() / TILE_SIZE + dx;
+        int y = e.getY() / TILE_SIZE + dy;
+        int tile = safeTileAt(x, y);
+        return tile == Tile.EMPTY || tile == Tile.ITEM || tile == Tile.PORTAL;
     }
 
-    // Kiểm tra bom có thể lan qua tile hay không
+    // Kiểm tra bom có thể lan qua tile (dx, dy)
     private static boolean canExplosionPass(int x, int y) {
         int t = safeTileAt(x, y);
         return t == Tile.EMPTY ||
@@ -47,12 +48,10 @@ public class Blocked {
     }
 
     private static boolean explosionCheck(Entity e, int dx, int dy, int power) {
-        int x = e.getX() / 32 + dx * (power + 1);
-        int y = e.getY() / 32 + dy * (power + 1);
+        int x = e.getX() / TILE_SIZE + dx * (power + 1);
+        int y = e.getY() / TILE_SIZE + dy * (power + 1);
         return canExplosionPass(x, y);
     }
-
-    // -------------------- API TƯƠNG THÍCH TÊN CŨ --------------------
 
     public static boolean block_down(Entity entity) {
         return canMove(entity, 0, 1);
