@@ -1,7 +1,7 @@
 package Control;
 
 import Entity.Entity;
-import static GameRunner.RunBomberman.*; // id_objects[][] phải có sẵn
+import static GameRunner.RunBomberman.*; 
 
 public class Blocked {
 
@@ -13,40 +13,44 @@ public class Blocked {
         public static final int EXPLOSION = 6;
         public static final int PORTAL = 7;
         public static final int ITEM = 8;
+
+        // ★★★ FAKE WALL — Tường giả ★★★
+        public static final int FAKE_WALL = 9;  // đi xuyên được nhưng chặn bom
     }
 
-    private static final int TILE_SIZE = 32;      // kích thước 1 ô (pixel)
-    private static final int ENTITY_WIDTH = 32;   // mặc định width của entity (pixel)
-    private static final int ENTITY_HEIGHT = 32;  // mặc định height của entity (pixel)
+    private static final int TILE_SIZE = 32;
+    private static final int ENTITY_WIDTH = 32;
+    private static final int ENTITY_HEIGHT = 32;
 
-    // Kiểm tra tọa độ ngoài map
+    // Kiểm tra ngoài map
     private static boolean outOfMap(int x, int y) {
         return x < 0 || y < 0 || x >= id_objects.length || y >= id_objects[0].length;
     }
 
-    // Lấy giá trị tile an toàn (trả WALL nếu ngoài bản đồ)
+    // Lấy tile an toàn
     private static int safeTileAt(int tileX, int tileY) {
         if (outOfMap(tileX, tileY)) return Tile.WALL;
         return id_objects[tileX][tileY];
     }
 
-    // Xác định loại tile cản (solid)
+    // Xác định tile có phải SOLID (không đi xuyên được)
     private static boolean isSolid(int tile) {
+
+        // Fake wall
+        if (tile == Tile.FAKE_WALL) return false;
+
         return tile == Tile.WALL ||
                 tile == Tile.BRICK ||
                 tile == Tile.BOMB;
     }
 
-    // Smooth collision check (AABB corners). Không dùng getWidth/getHeight từ Entity
+    // Smooth AABB movement
     private static boolean canMoveSmooth(Entity e, int dx, int dy) {
 
-        // Lấy bounding box dựa trên giả định kích thước entity = ENTITY_WIDTH x ENTITY_HEIGHT
         int left   = e.getX() + dx;
         int right  = e.getX() + ENTITY_WIDTH  + dx - 1;
         int top    = e.getY() + dy;
         int bottom = e.getY() + ENTITY_HEIGHT + dy - 1;
-
-       
 
         int tileLeft   = left   / TILE_SIZE;
         int tileRight  = right  / TILE_SIZE;
@@ -61,8 +65,13 @@ public class Blocked {
         return !isSolid(t1) && !isSolid(t2) && !isSolid(t3) && !isSolid(t4);
     }
 
+    // Kiểm tra bom có thể lan qua tile
     private static boolean canExplosionPass(int x, int y) {
         int t = safeTileAt(x, y);
+
+        // ★★★ FAKE WALL CHẶN LỬA (giống tường thật) ★★★
+        if (t == Tile.FAKE_WALL) return false;
+
         return t == Tile.EMPTY ||
                 t == Tile.BOMB ||
                 t == Tile.EXPLOSION ||
@@ -76,35 +85,15 @@ public class Blocked {
         return canExplosionPass(tileX, tileY);
     }
 
-    public static boolean block_down(Entity entity) {
-        return canMoveSmooth(entity, 0, 1);
-    }
+    // API movement
+    public static boolean block_down(Entity entity) { return canMoveSmooth(entity, 0, 1); }
+    public static boolean block_up(Entity entity) { return canMoveSmooth(entity, 0, -1); }
+    public static boolean block_left(Entity entity) { return canMoveSmooth(entity, -1, 0); }
+    public static boolean block_right(Entity entity) { return canMoveSmooth(entity, 1, 0); }
 
-    public static boolean block_up(Entity entity) {
-        return canMoveSmooth(entity, 0, -1);
-    }
-
-    public static boolean block_left(Entity entity) {
-        return canMoveSmooth(entity, -1, 0);
-    }
-
-    public static boolean block_right(Entity entity) {
-        return canMoveSmooth(entity, 1, 0);
-    }
-
-    public static boolean block_down_bomb(Entity entity, int power) {
-        return explosionCheck(entity, 0, 1, power);
-    }
-
-    public static boolean block_up_bomb(Entity entity, int power) {
-        return explosionCheck(entity, 0, -1, power);
-    }
-
-    public static boolean block_left_bomb(Entity entity, int power) {
-        return explosionCheck(entity, -1, 0, power);
-    }
-
-    public static boolean block_right_bomb(Entity entity, int power) {
-        return explosionCheck(entity, 1, 0, power);
-    }
+    // API explosion
+    public static boolean block_down_bomb(Entity entity, int power) { return explosionCheck(entity, 0, 1, power); }
+    public static boolean block_up_bomb(Entity entity, int power) { return explosionCheck(entity, 0, -1, power); }
+    public static boolean block_left_bomb(Entity entity, int power) { return explosionCheck(entity, -1, 0, power); }
+    public static boolean block_right_bomb(Entity entity, int power) { return explosionCheck(entity, 1, 0, power); }
 }
