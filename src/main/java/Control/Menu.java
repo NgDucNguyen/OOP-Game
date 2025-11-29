@@ -25,11 +25,13 @@ public class Menu {
         level.setFill(Color.WHITE);
         level.setX(416);
         level.setY(20);
+
         bomb = new Text("Bombs: 20");
         bomb.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         bomb.setFill(Color.WHITE);
         bomb.setX(512);
         bomb.setY(20);
+
         time = new Text("Times: 120");
         time.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         time.setFill(Color.WHITE);
@@ -46,6 +48,7 @@ public class Menu {
         Pane pane = new Pane();
         pane.getChildren().addAll(level, bomb, time, statusGame);
         pane.setMinSize(800, 32);
+        pane.setMaxSize(800, 480);
         pane.setStyle("-fx-background-color: #353535");
 
         root.getChildren().add(pane);
@@ -53,7 +56,8 @@ public class Menu {
         playGame = new Image("images/pauseButton.png");
         pauseGame = new Image("images/resumeButton.png");
 
-        statusGame.setOnMouseClicked(event -> {     //Event when you click the play game button, if your character still alive, the game will pause, else the game will start at level 1
+        statusGame.setOnMouseClicked(event -> {
+            // FIX: tránh null pointer nếu player chưa được tạo
             if (player != null && player.isLife()) {
                 isPause = !isPause;
             } else {
@@ -69,16 +73,19 @@ public class Menu {
         level.setText("Level: " + RunBomberman.level);
         bomb.setText("Bombs: " + bomb_number);
 
-        if (player.isLife())
+        // ⭐ Thêm cập nhật time_number vào menu
+        time.setText("Times: " + time_number);
+
+        // ⭐ Fix player null
+        if (player != null && player.isLife()) {
             if (isPause) {
                 statusGame.setImage(pauseGame);
             } else {
                 statusGame.setImage(playGame);
             }
-        else {
+        } else {
             Image newGame = new Image("images/startButton.png");
             statusGame.setImage(newGame);
         }
     }
 }
-
