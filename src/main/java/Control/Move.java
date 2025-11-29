@@ -19,7 +19,10 @@ public class Move {
         }
     }
 
-    private static void setDirection(String direction, Animal animal, int isMove) {     //Show the direction of all mob
+    private static void setDirection(String direction, Animal animal, int isMove) {
+        if (direction == null || direction.isEmpty()) {
+            return;
+        }
         switch (direction) {
             case "down":
                 down_step(animal);
