@@ -54,7 +54,7 @@ public class Menu {
         pauseGame = new Image("images/resumeButton.png");
 
         statusGame.setOnMouseClicked(event -> {     //Event when you click the play game button, if your character still alive, the game will pause, else the game will start at level 1
-            if (player.isLife()) {
+            if (player != null && player.isLife()) {
                 isPause = !isPause;
             } else {
                 new Level1();
