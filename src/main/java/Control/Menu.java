@@ -46,7 +46,6 @@ public class Menu {
         Pane pane = new Pane();
         pane.getChildren().addAll(level, bomb, time, statusGame);
         pane.setMinSize(800, 32);
-        pane.setMaxSize(800, 480);
         pane.setStyle("-fx-background-color: #353535");
 
         root.getChildren().add(pane);
