@@ -30,14 +30,11 @@ public class Doll extends Animal{
 
     }
 
-    private void killDoll(Animal animal) {//Doll chết
+    private void killDoll(Animal animal) {
         if (count_kill % 16 == 0) {
-            if (swap_kill == 1) {
-                animal.setImg(Sprite.doll_dead.getFxImage());
-                swap_kill = 2;
-            } else if (swap_kill == 2) {
-                animal.setImg(Sprite.player_dead_3.getFxImage());
-                swap_kill = 3;
+            if (swap_kill <= Sprite.NUM_DOLL_DEAD_FRAME) {
+                animal.setImg(Sprite.doll_dead[swap_kill - 1].getFxImage());
+                swap_kill = swap_kill + 1;
             } else {
                 animal.setLife(false);
                 enemy.remove(animal);
@@ -94,4 +91,5 @@ public class Doll extends Animal{
         }
         moveDoll();
     }
+
 }
