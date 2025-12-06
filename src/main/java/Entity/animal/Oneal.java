@@ -29,14 +29,10 @@ public class Oneal extends Animal {
 
     private void killOneal(Animal animal) {
         if (count_kill % 16 == 0) {
-            if (swap_kill == 1) {
-                animal.setImg(Sprite.oneal_dead.getFxImage());
-                swap_kill = 2;
-            } 
-            else if (swap_kill == 2) {
-                animal.setImg(Sprite.player_dead_3.getFxImage());
-                swap_kill = 3;
-            } 
+            if (swap_kill <= Sprite.NUM_ONEAL_DEAD_FRAME) {
+                animal.setImg(Sprite.oneal_dead[swap_kill - 1].getFxImage());
+                swap_kill++;
+            }
             else {
                 animal.setLife(false);
                 enemy.remove(animal);
@@ -65,4 +61,5 @@ public class Oneal extends Animal {
             }
         }
     }
+
 }
