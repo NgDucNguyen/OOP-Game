@@ -13,6 +13,12 @@ public class Sprite {
     protected int real_height;
     private SpriteSheet sheet;
 
+    public static final int NUM_PLAYER_DEAD_FRAME = 7;
+    public static final int NUM_DOLL_DEAD_FRAME = 5;
+    public static final int NUM_MOB_DEAD_FRAME = 10;
+    public static final int NUM_ONEAL_DEAD_FRAME = 11;
+    public static final int NUM_KONDORIA_DEAD_FRAME = 8;
+
     // This function is used to load the animation and image in pixels * SIZE in pixels
     private void load() {
         for (int y = 0; y < SIZE; y++) {
@@ -34,6 +40,84 @@ public class Sprite {
         load();
     }
 
+    // Constructor này để tạo các Sprite load đồ họa từ 1 file ảnh, thay vì từ SpriteSheet
+    public Sprite(int SIZE, int real_width, int real_height, String imagePath) {
+        this.SIZE = SIZE;
+        this.real_width = real_width;
+        this.real_height = real_height;
+
+        pixels = new int[this.SIZE * this.SIZE];
+        loadFromFile(imagePath);
+    }
+
+    // Constructor này như trên nhưng xóa luôn nền của ảnh Sprite (biến background là màu được chọn để xóa)
+    public Sprite(int SIZE, int real_width, int real_height, String imagePath, int background) {
+        this.SIZE = SIZE;
+        this.real_width = real_width;
+        this.real_height = real_height;
+
+        pixels = new int[this.SIZE * this.SIZE];
+        loadFromFile(imagePath, background);
+    }
+
+    // load file ảnh
+    private void loadFromFile(String path) {
+    try {
+        File file = new File(path);
+        System.out.println("Loading sprite from file: " + file.getAbsolutePath());
+        image = ImageIO.read(file);
+        
+        BufferedImage scaled = new BufferedImage(SIZE, SIZE, BufferedImage.TYPE_INT_ARGB);
+        scaled.getGraphics().drawImage(image, 0, 0, SIZE, SIZE, null);
+        image = scaled;
+
+        int imgType = scaled.getType();
+        System.out.println("Image type" + imgType);
+
+        for (int y = 0; y < SIZE; y++) {
+            for (int x = 0; x < SIZE; x++) {
+                pixels[x + y * SIZE] = image.getRGB(x, y);
+                int argb = scaled.getRGB(x,y);
+
+                pixels[x + y *SIZE] = argb;
+            }
+        }
+    } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // load file ảnh asset nhưng xóa nền
+    private void loadFromFile(String path, int make_transparency_color) {
+        // make_transparency_color là màu nền, cần xóa.
+    try {
+        File file = new File(path);
+        System.out.println("Loading sprite from file: " + file.getAbsolutePath());
+        image = ImageIO.read(file);
+        
+        BufferedImage scaled = new BufferedImage(SIZE, SIZE, BufferedImage.TYPE_INT_ARGB);
+        scaled.getGraphics().drawImage(image, 0, 0, SIZE, SIZE, null);
+        image = scaled;
+
+        int imgType = scaled.getType();
+        System.out.println("Image type" + imgType);
+
+        for (int y = 0; y < SIZE; y++) {
+            for (int x = 0; x < SIZE; x++) {
+                pixels[x + y * SIZE] = image.getRGB(x, y);
+                int argb = scaled.getRGB(x,y);
+                if ((argb & 0x00FFFFFF) == make_transparency_color) { // so RGB thôi
+                    argb = 0x00000000; // hoàn toàn trong suốt
+                }
+
+                pixels[x + y *SIZE] = argb;
+            }
+        }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     // This object creates transparent color in the outline of the interface.
     public static Sprite transparent = new Sprite(ORIGINAL_SIZE, 15, 15, 16, 16, SpriteSheet.tiles);
@@ -45,63 +129,87 @@ public class Sprite {
     public static Sprite wall = new Sprite(ORIGINAL_SIZE, 5, 0, 16, 16, SpriteSheet.tiles);
 
     /* Bomber: to create object control when player move in 4 directions: up, down, right, and left */
-    public static Sprite control_up = new Sprite(ORIGINAL_SIZE, 0, 0, 12, 16, SpriteSheet.tiles);
-    public static Sprite control_down = new Sprite(ORIGINAL_SIZE, 2, 0, 12, 15, SpriteSheet.tiles);
-    public static Sprite control_right = new Sprite(ORIGINAL_SIZE, 1, 0, 10, 16, SpriteSheet.tiles);
-    public static Sprite control_left = new Sprite(ORIGINAL_SIZE, 3, 0, 10, 15, SpriteSheet.tiles);
+    public static Sprite control_up      = new Sprite(ORIGINAL_SIZE,16, 16, "res/player/blue_character.png",0x73bd9c);
+    public static Sprite control_down    = new Sprite(ORIGINAL_SIZE,16, 16, "res/player/blue_character.png",0x73bd9c);
+    public static Sprite control_right   = new Sprite(ORIGINAL_SIZE,16, 16, "res/player/blue_character.png",0x73bd9c);
+    public static Sprite control_left    = new Sprite(ORIGINAL_SIZE,16, 16, "res/player/blue_character.png",0x73bd9c);
+    public static Sprite control_up_1    = new Sprite(ORIGINAL_SIZE,16, 16, "res/player/blue_character.png",0x73bd9c);
+    public static Sprite control_up_2    = new Sprite(ORIGINAL_SIZE,16, 16, "res/player/blue_character.png",0x73bd9c); 
+    public static Sprite control_down_1  = new Sprite(ORIGINAL_SIZE,16, 16, "res/player/blue_character.png",0x73bd9c);
+    public static Sprite control_down_2  = new Sprite(ORIGINAL_SIZE,16, 16, "res/player/blue_character.png",0x73bd9c);
 
-    public static Sprite control_up_1 = new Sprite(ORIGINAL_SIZE, 0, 1, 12, 16, SpriteSheet.tiles);
-    public static Sprite control_up_2 = new Sprite(ORIGINAL_SIZE, 0, 2, 12, 15, SpriteSheet.tiles);
+    public static Sprite control_right_1 = new Sprite(ORIGINAL_SIZE,16, 16, "res/player/blue_character.png",0x73bd9c);
+    public static Sprite control_right_2 = new Sprite(ORIGINAL_SIZE,16, 16, "res/player/blue_character.png",0x73bd9c);
 
-    public static Sprite control_down_1 = new Sprite(ORIGINAL_SIZE, 2, 1, 12, 15, SpriteSheet.tiles);
-    public static Sprite control_down_2 = new Sprite(ORIGINAL_SIZE, 2, 2, 12, 16, SpriteSheet.tiles);
+    public static Sprite control_left_1  = new Sprite(ORIGINAL_SIZE,16, 16, "res/player/blue_character.png",0x73bd9c);
+    public static Sprite control_left_2  = new Sprite(ORIGINAL_SIZE,16, 16, "res/player/blue_character.png",0x73bd9c);
 
-    public static Sprite control_right_1 = new Sprite(ORIGINAL_SIZE, 1, 1, 11, 16, SpriteSheet.tiles);
-    public static Sprite control_right_2 = new Sprite(ORIGINAL_SIZE, 1, 2, 12, 16, SpriteSheet.tiles);
+   // Khai báo mảng để quản lý các frame ảnh mà nhân vật chết. Nhiều frame nên dùng mảng cho tiện
+    public static Sprite [] player_dead = new Sprite[NUM_PLAYER_DEAD_FRAME];
 
-    public static Sprite control_left_1 = new Sprite(ORIGINAL_SIZE, 3, 1, 11, 16, SpriteSheet.tiles);
-    public static Sprite control_left_2 = new Sprite(ORIGINAL_SIZE, 3, 2, 12, 16, SpriteSheet.tiles);
-
-    /* Death: Create object when player dead */
-    public static Sprite player_dead_1 = new Sprite(ORIGINAL_SIZE, 4, 2, 14, 16, SpriteSheet.tiles);
-    public static Sprite player_dead_2 = new Sprite(ORIGINAL_SIZE, 5, 2, 13, 15, SpriteSheet.tiles);
-    public static Sprite player_dead_3 = new Sprite(ORIGINAL_SIZE, 6, 2, 16, 16, SpriteSheet.tiles);
+    static{
+        for(int i = 0; i < NUM_PLAYER_DEAD_FRAME; i++){
+            player_dead[i] = new Sprite(ORIGINAL_SIZE,16,16,"res/player/death" + (i + 1) + ".png");
+        }
+    }
 
 
     /* Character/Enemy: Create an object for each enemy and follow up on the movement direction */
 
     // BALLOM
-    public static Sprite ballom_right_1 = new Sprite(ORIGINAL_SIZE, 10, 0, 16, 16, SpriteSheet.tiles);
-    public static Sprite ballom_right_2 = new Sprite(ORIGINAL_SIZE, 10, 1, 16, 16, SpriteSheet.tiles);
-    public static Sprite ballom_right_3 = new Sprite(ORIGINAL_SIZE, 10, 2, 16, 16, SpriteSheet.tiles);
+    public static Sprite ballom_right_1 = new Sprite(ORIGINAL_SIZE, 16,16,"res/enemy/crab_main.png");
+    public static Sprite ballom_right_2 = new Sprite(ORIGINAL_SIZE, 16,16,"res/enemy/crab_main.png");
+    public static Sprite ballom_right_3 = new Sprite(ORIGINAL_SIZE, 16,16,"res/enemy/crab_main.png");
 
-    public static Sprite ballom_left_1 = new Sprite(ORIGINAL_SIZE, 9, 0, 16, 16, SpriteSheet.tiles);
-    public static Sprite ballom_left_2 = new Sprite(ORIGINAL_SIZE, 9, 1, 16, 16, SpriteSheet.tiles);
-    public static Sprite ballom_left_3 = new Sprite(ORIGINAL_SIZE, 9, 2, 16, 16, SpriteSheet.tiles);
+    public static Sprite ballom_left_1 = new Sprite(ORIGINAL_SIZE, 16,16,"res/enemy/crab_main.png");
+    public static Sprite ballom_left_2 = new Sprite(ORIGINAL_SIZE, 16,16,"res/enemy/crab_main.png");
+    public static Sprite ballom_left_3 = new Sprite(ORIGINAL_SIZE, 16,16,"res/enemy/crab_main.png");
 
     public static Sprite ballom_dead = new Sprite(ORIGINAL_SIZE, 9, 3, 16, 16, SpriteSheet.tiles);
 
+   // Khai báo mảng để quản lý các frame ảnh mà nhân vật chết. Nhiều frame nên dùng mảng cho tiện
+    public static Sprite[] mob_dead = new Sprite[NUM_MOB_DEAD_FRAME];
+
+    static{
+        for (int i = 0; i < NUM_MOB_DEAD_FRAME; i++) {
+            // i+1 để tên file chạy từ crab_dead1.png đến crab_dead10.png
+            mob_dead[i] = new Sprite(ORIGINAL_SIZE, 16, 16, "res/enemy/crab_dead" + (i + 1) + ".png");
+        }
+    }
+
     // ONEAL
-    public static Sprite oneal_right_1 = new Sprite(ORIGINAL_SIZE, 12, 0, 16, 16, SpriteSheet.tiles);
-    public static Sprite oneal_right_2 = new Sprite(ORIGINAL_SIZE, 12, 1, 16, 16, SpriteSheet.tiles);
-    public static Sprite oneal_right_3 = new Sprite(ORIGINAL_SIZE, 12, 2, 16, 16, SpriteSheet.tiles);
+    public static Sprite oneal_right_1 = new Sprite(ORIGINAL_SIZE, 16, 16, "res/enemy/e1_main.png");
+    public static Sprite oneal_right_2 = new Sprite(ORIGINAL_SIZE, 16, 16, "res/enemy/e1_main.png");
+    public static Sprite oneal_right_3 = new Sprite(ORIGINAL_SIZE, 16, 16, "res/enemy/e1_main.png");
 
-    public static Sprite oneal_left_1 = new Sprite(ORIGINAL_SIZE, 11, 0, 16, 16, SpriteSheet.tiles);
-    public static Sprite oneal_left_2 = new Sprite(ORIGINAL_SIZE, 11, 1, 16, 16, SpriteSheet.tiles);
-    public static Sprite oneal_left_3 = new Sprite(ORIGINAL_SIZE, 11, 2, 16, 16, SpriteSheet.tiles);
+    public static Sprite oneal_left_1 = new Sprite(ORIGINAL_SIZE, 16, 16, "res/enemy/e1_main.png");
+    public static Sprite oneal_left_2 = new Sprite(ORIGINAL_SIZE, 16, 16, "res/enemy/e1_main.png");
+    public static Sprite oneal_left_3 = new Sprite(ORIGINAL_SIZE, 16, 16, "res/enemy/e1_main.png");
 
-    public static Sprite oneal_dead = new Sprite(ORIGINAL_SIZE, 11, 3, 16, 16, SpriteSheet.tiles);
+    public static Sprite [] oneal_dead = new Sprite[NUM_ONEAL_DEAD_FRAME];
 
-    // DOLL
-    public static Sprite doll_right_1 = new Sprite(ORIGINAL_SIZE, 14, 0, 16, 16, SpriteSheet.tiles);
-    public static Sprite doll_right_2 = new Sprite(ORIGINAL_SIZE, 14, 1, 16, 16, SpriteSheet.tiles);
-    public static Sprite doll_right_3 = new Sprite(ORIGINAL_SIZE, 14, 2, 16, 16, SpriteSheet.tiles);
+    static{ // các frame con oneal chết
+        for(int i = 0; i < NUM_ONEAL_DEAD_FRAME; i++){
+             oneal_dead[i] = new Sprite(ORIGINAL_SIZE, 16, 16, "res/enemy/e1_dead" + (i + 1) + ".png");
+        }
+    }
 
-    public static Sprite doll_left_1 = new Sprite(ORIGINAL_SIZE, 13, 0, 16, 16, SpriteSheet.tiles);
-    public static Sprite doll_left_2 = new Sprite(ORIGINAL_SIZE, 13, 1, 16, 16, SpriteSheet.tiles);
-    public static Sprite doll_left_3 = new Sprite(ORIGINAL_SIZE, 13, 2, 16, 16, SpriteSheet.tiles);
+     // DOLL
+    public static Sprite doll_right_1 = new Sprite(ORIGINAL_SIZE, 16,16,"res/enemy/e2_main.png");
+    public static Sprite doll_right_2 = new Sprite(ORIGINAL_SIZE, 16,16,"res/enemy/e2_main.png");
+    public static Sprite doll_right_3 = new Sprite(ORIGINAL_SIZE, 16,16,"res/enemy/e2_main.png");
 
-    public static Sprite doll_dead = new Sprite(ORIGINAL_SIZE, 13, 3, 16, 16, SpriteSheet.tiles);
+    public static Sprite doll_left_1 = new Sprite(ORIGINAL_SIZE, 16,16,"res/enemy/e2_main.png");
+    public static Sprite doll_left_2 = new Sprite(ORIGINAL_SIZE, 16,16,"res/enemy/e2_main.png");
+    public static Sprite doll_left_3 = new Sprite(ORIGINAL_SIZE, 16,16,"res/enemy/e2_main.png");
+
+    public static Sprite [] doll_dead = new Sprite[NUM_DOLL_DEAD_FRAME];
+
+    static{
+        for(int i = 0; i < NUM_DOLL_DEAD_FRAME; i++){
+            doll_dead[i] = new Sprite(ORIGINAL_SIZE,16,16,"res/e2_dead" + (i + 1) + ".png");
+        }
+    }
 
     // MINVO
     public static Sprite minvo_right_1 = new Sprite(ORIGINAL_SIZE, 9, 5, 16, 16, SpriteSheet.tiles);
@@ -115,20 +223,22 @@ public class Sprite {
     public static Sprite minvo_dead = new Sprite(ORIGINAL_SIZE, 8, 8, 16, 16, SpriteSheet.tiles);
 
     // KONDORIA
-    public static Sprite kondoria_right_1 = new Sprite(ORIGINAL_SIZE, 11, 5, 16 ,16, SpriteSheet.tiles);
-    public static Sprite kondoria_right_2 = new Sprite(ORIGINAL_SIZE, 11, 6, 16, 16, SpriteSheet.tiles);
-    public static Sprite kondoria_right_3 = new Sprite(ORIGINAL_SIZE, 11, 7, 16, 16, SpriteSheet.tiles);
+    public static Sprite kondoria_right_1 = new Sprite(ORIGINAL_SIZE, 16,16,"res/enemy/e3_main.png");
+    public static Sprite kondoria_right_2 = new Sprite(ORIGINAL_SIZE, 16,16,"res/enemy/e3_main.png");
+    public static Sprite kondoria_right_3 = new Sprite(ORIGINAL_SIZE, 16,16,"res/enemy/e3_main.png");
 
-    public static Sprite kondoria_left_1 = new Sprite(ORIGINAL_SIZE, 10, 5, 16, 16, SpriteSheet.tiles);
-    public static Sprite kondoria_left_2 = new Sprite(ORIGINAL_SIZE, 10, 6, 16, 16, SpriteSheet.tiles);
-    public static Sprite kondoria_left_3 = new Sprite(ORIGINAL_SIZE, 10, 7, 16, 16, SpriteSheet.tiles);
+    public static Sprite kondoria_left_1 = new Sprite(ORIGINAL_SIZE, 16,16,"res/enemy/e3_main.png");
+    public static Sprite kondoria_left_2 = new Sprite(ORIGINAL_SIZE, 16,16,"res/enemy/e3_main.png");
+    public static Sprite kondoria_left_3 = new Sprite(ORIGINAL_SIZE, 16,16,"res/enemy/e3_main.png");
 
-    public static Sprite kondoria_dead = new Sprite(ORIGINAL_SIZE, 10, 8, 16, 16, SpriteSheet.tiles);
+    public static Sprite[] kondoria_dead = new Sprite[NUM_KONDORIA_DEAD_FRAME];
 
-    // ALL
-    public static Sprite mob_dead_1 = new Sprite(ORIGINAL_SIZE, 15, 0, 16, 16, SpriteSheet.tiles);
-    public static Sprite mob_dead_2 = new Sprite(ORIGINAL_SIZE, 15, 1, 16, 16, SpriteSheet.tiles);
-    public static Sprite mob_dead_3 = new Sprite(ORIGINAL_SIZE, 15, 2, 16, 16, SpriteSheet.tiles);
+    static{
+        for(int i = 0; i < NUM_KONDORIA_DEAD_FRAME; i++){
+            kondoria_dead[i] = new Sprite(ORIGINAL_SIZE,16,16,"res/e3_dead" + (i + 1) + ".png");
+        }
+    }
+
 
     /* BOMB SPRITES */
     public static Sprite bomb = new Sprite(ORIGINAL_SIZE, 0, 3, 15, 15, SpriteSheet.tiles);
