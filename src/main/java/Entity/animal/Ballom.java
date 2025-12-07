@@ -22,7 +22,7 @@ public class Ballom extends Animal {
     }
     
     private void killBallom(Animal animal) {    //Bomber destroys Balloon
-        if (count_kill % 16 == 0) {
+        if (delayy % 16 == 0) {
             if (swap_kill <= Sprite.NUM_MOB_DEAD_FRAME) {
                 animal.setImg(Sprite.mob_dead[swap_kill - 1].getFxImage());
                 swap_kill++;
