@@ -1,4 +1,4 @@
-package Entity.animal.moving_stategy;
+package Entity.animal.moving_strategy;
 
 public class Node {
     private int h;//Các thông số của một node 

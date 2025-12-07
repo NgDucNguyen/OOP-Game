@@ -1,4 +1,4 @@
-package Entity.animal.moving_stategy;
+package Entity.animal.moving_strategy;
 
 import java.util.*;
 //Khởi tạo các thông số cần thiết

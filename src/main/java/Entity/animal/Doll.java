@@ -3,8 +3,8 @@ package Entity.animal;
 import java.util.List;
 
 import Control.Move;
-import Entity.animal.intelligent.AStar;
-import Entity.animal.intelligent.Node;
+import Entity.animal.moving_strategy.AStar;
+import Entity.animal.moving_strategy.Node;
 import Graphics.Sprite;
 import javafx.scene.image.Image;
 
