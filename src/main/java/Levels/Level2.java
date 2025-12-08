@@ -1,8 +1,8 @@
 package Levels;
 
 import javafx.scene.image.Image;
-import Entity.animal.Animal;
 import Entity.animal.Oneal;
+import Entity.animal.Animal;
 import Entity.animal.Ballom;
 import Entity.animal.Kondoria;
 import Graphics.MapCreation;
@@ -11,8 +11,7 @@ import Graphics.Sprite;
 import static GameRunner.RunBomberman.*;
 
 import static GameRunner.RunBomberman.enemy;
-import static Control.Menu.bomb_number;
-import static Control.Menu.time_number;
+import static Control.Menu.*;
 import static Entity.animal.Bomber.swap_kill;
 import static Entity.block.Bomb.is_bomb;
 import static Entity.items.SpeedItem.speed;

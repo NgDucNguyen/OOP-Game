@@ -1,10 +1,11 @@
 package Entity.animal;
 
-import Control.Move;
 import javafx.scene.image.Image;
 import Graphics.Sprite;
 
 import static GameRunner.RunBomberman.*;
+
+import Control.Move;
 
 public class Kondoria extends Animal {
 

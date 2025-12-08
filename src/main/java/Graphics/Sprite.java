@@ -197,7 +197,7 @@ public class Sprite {
 
     static{ // các frame con oneal chết
         for(int i = 0; i < NUM_ONEAL_DEAD_FRAME; i++){
-             oneal_dead[i] = new Sprite(ORIGINAL_SIZE, 16, 16, "res/enemy/e1_dead" + (i + 1) + ".png");
+            oneal_dead[i] = new Sprite(ORIGINAL_SIZE, 16, 16, "res/enemy/e1_dead" + (i + 1) + ".png");
         }
     }
 

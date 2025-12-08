@@ -1,14 +1,11 @@
 package GameRunner;
 
-import Control.Menu;
-import Control.Move;
 import Entity.Entity;
 import Entity.animal.Animal;
 import Entity.animal.Bomber;
 import Entity.block.Bomb;
 import Entity.block.Portal;
 import Graphics.Sprite;
-
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -22,9 +19,12 @@ import javafx.scene.canvas.Canvas;
 import java.util.ArrayList;
 import java.util.List;
 
+import Control.Menu;
+import Control.Move;
+
+import static Control.Menu.*;
 import static Entity.block.Portal.*;
 import static Features.SoundManager.updateSound;
-import static Control.Menu.*;
 import static Levels.NextLevel.*;
 
 public class RunBomberman extends Application {

@@ -1,17 +1,18 @@
 package Entity.animal;
 
-import Control.Move;
 import javafx.scene.image.Image;
 import Graphics.Sprite;
 
 import java.util.Random;
 
+import Control.Move;
+
 import static GameRunner.RunBomberman.enemy;
 import static GameRunner.RunBomberman.list_kill;
 
 public class Ballom extends Animal {
-    private static int swap_kill = 1;
-    private static int delayy = 0;  //Để tạo hoạt ảnh
+    private int swap_kill = 1;
+    private int delayy = 0;  //Để tạo hoạt ảnh
 
     public Ballom(int is_move, int swap, String direction, int count, int count_to_run) {
         super(4, 1, "up", 0, 0);
@@ -53,6 +54,7 @@ public class Ballom extends Animal {
         delayy++;
         if (this instanceof Ballom && !this.life){
             killBallom(this);
+            return;
         }
                 
 

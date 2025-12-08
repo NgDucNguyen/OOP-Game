@@ -44,6 +44,9 @@ public class Bomber extends Animal {
         int ax = player.getX();
         int ay = player.getY();
         for (Animal animal : enemy) {
+            if (!animal.isLife()) {
+            continue; // Nếu quái đã chết, bỏ qua, không kiểm tra va chạm
+        }
             int bx = animal.getX();
             int by = animal.getY();
             if (

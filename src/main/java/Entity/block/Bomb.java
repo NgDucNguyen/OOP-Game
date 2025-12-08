@@ -1,22 +1,23 @@
 package Entity.block;
 
 import Entity.Entity;
-import Control.Blocked;
 import Graphics.Sprite;
 import Features.SoundManager;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import Control.Blocked;
 import javafx.scene.image.Image;
 
+import static Control.Menu.*;
 import static GameRunner.RunBomberman.*;
 import static GameRunner.RunBomberman.player;
-import static Control.Menu.bomb_number;
 
 public class Bomb extends Entity {
     private static long time_bomb;      //Thời gian bom nổ 
     private static long time_tmp;       // Thời gian được phép nổ giữa 2 quả bom
-    private static Entity bomb;         
+    private static Entity bomb;
     private static int swap_active = 1;     //Là các trạng thái cho đến khi bom phát nổ(tạo hiệu ứng thị giác)
     private static int swap_explosion = 1;  //
     private static final List<Entity> list_bomb_middle_width = new ArrayList();
@@ -274,8 +275,8 @@ public class Bomb extends Entity {
     }
 
     private static void checkExplosion() {      // Xem đã đến lúc nổ chưa
-        if (is_bomb == 2) {//Nổ thôi
-            if (System.currentTimeMillis() - time_bomb < 1000L) {//Tạo hiệu ứng nổ , lấy các góc cạnh , tt và ô giữa cần thiết
+        if (is_bomb == 2) {   //Nổ thôi
+            if (System.currentTimeMillis() - time_bomb < 1000L) {  //Tạo hiệu ứng nổ , lấy các góc cạnh , tt và ô giữa cần thiết
                 if (System.currentTimeMillis() - time_tmp > 100L) {
                     if (!is_edge) {
                         createEdge();

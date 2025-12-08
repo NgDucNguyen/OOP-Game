@@ -1,14 +1,15 @@
 package Entity.animal;
 
-import Control.Move;
 import Graphics.Sprite;
 import javafx.scene.image.Image;
 
 import static GameRunner.RunBomberman.*;
 
+import Control.Move;
+
 public class Oneal extends Animal {
-    private static int swap_kill = 1;
-    private static int count_kill = 0;
+    private int swap_kill = 1;
+    private int count_kill = 0;
 
     
     public Oneal(int x, int y, Image img) {
@@ -51,8 +52,11 @@ public class Oneal extends Animal {
     public void update() {
         count_kill++;
         kill();
-        if (this instanceof Oneal && !this.life)
+        if (this instanceof Oneal && !this.life){
             killOneal(this);
+            return;
+        }
+            
         if (this.y % 16 == 0 && this.x % 16 == 0) {//Di chuyển theo hướng về ng chơi (ko phải cố bắt)
             if (player.getX() < this.x) {
                 Move.left(this);
