@@ -1,20 +1,23 @@
 package Levels;
 
-import javafx.scene.image.Image;
-import Entity.animal.Oneal;
+import static Control.Menu.bomb_number;
+import static Control.Menu.time_number;
 import Entity.animal.Animal;
 import Entity.animal.Ballom;
-import Graphics.MapCreation;
-import Graphics.Sprite;
-
-import static GameRunner.RunBomberman.*;
-import static Control.Menu.*;
 import static Entity.animal.Bomber.swap_kill;
+import Entity.animal.Oneal;
 import static Entity.block.Bomb.is_bomb;
 import static Entity.block.Bomb.power_bomb;
 import static Entity.items.SpeedItem.speed;
 import static Features.SoundManager.is_sound_died;
 import static Features.SoundManager.is_sound_title;
+import static GameRunner.RunBomberman.author_view;
+import static GameRunner.RunBomberman.block;
+import static GameRunner.RunBomberman.enemy;
+import static GameRunner.RunBomberman.player;
+import Graphics.MapCreation;
+import Graphics.Sprite;
+import javafx.scene.image.Image;
 
 public class Level1 {
     public Level1() {

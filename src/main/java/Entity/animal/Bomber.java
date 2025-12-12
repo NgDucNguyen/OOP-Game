@@ -1,13 +1,16 @@
 package Entity.animal;
 
-import javafx.scene.image.Image;
+import static GameRunner.RunBomberman.author_view;
+import static GameRunner.RunBomberman.enemy;
+import static GameRunner.RunBomberman.list_kill;
+import static GameRunner.RunBomberman.player;
+import static GameRunner.RunBomberman.running;
 import Graphics.Sprite;
-
-import static GameRunner.RunBomberman.*;
+import javafx.scene.image.Image;
 
 public class Bomber extends Animal {
     public static int swap_kill = 1;
-    private static int count_kill = 0;
+    private int count_kill = 0;
 
     public Bomber(int is_move, int swap, String direction, int count, int count_to_run) {
         super(8, 1, "down", 0, 0);

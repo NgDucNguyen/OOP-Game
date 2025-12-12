@@ -1,13 +1,15 @@
 package Features;
 
-import javax.sound.sampled.*;
-import javax.swing.*;
-
-import Entity.animal.Animal;
-import Entity.animal.Bomber;
-
 import java.io.IOException;
 import java.net.URL;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.swing.JFrame;
 
 import static GameRunner.RunBomberman.player;
 import static Levels.NextLevel.wait;
