@@ -178,7 +178,7 @@ public class Sprite {
     public static Sprite[] mob_dead = new Sprite[NUM_MOB_DEAD_FRAME];
 
     static{
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < NUM_MOB_DEAD_FRAME; i++) {
             // i+1 để tên file chạy từ crab_dead1.png đến crab_dead10.png
             mob_dead[i] = new Sprite(ORIGINAL_SIZE, 16, 16, "res/enemy/crab_dead" + (i + 1) + ".png");
         }
