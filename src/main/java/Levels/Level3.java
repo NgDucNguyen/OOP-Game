@@ -45,6 +45,8 @@ public class Level3 {
 
         Animal enemy3 = new Doll(7, 5, Sprite.doll_left_1.getFxImage());
         enemy.add(enemy3);
+        Animal enemy4 = new Doll(9, 10, Sprite.doll_left_1.getFxImage());
+        enemy.add(enemy4);
 
         for (Animal animal : enemy) {
             animal.setLife(true);

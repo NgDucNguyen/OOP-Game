@@ -1,11 +1,11 @@
 package Entity.animal;
 
+import Control.Move;
+import static GameRunner.RunBomberman.enemy;
+import static GameRunner.RunBomberman.list_kill;
+import static GameRunner.RunBomberman.player;
 import Graphics.Sprite;
 import javafx.scene.image.Image;
-
-import static GameRunner.RunBomberman.*;
-
-import Control.Move;
 
 public class Oneal extends Animal {
     private int swap_kill = 1;
@@ -41,7 +41,7 @@ public class Oneal extends Animal {
             }
         }
     }
-    private void kill() {
+    private  void kill() {
         for (Animal animal : enemy) {
             if (list_kill[animal.getX() / 32][animal.getY() / 32] == 4) {
                 animal.setLife(false);

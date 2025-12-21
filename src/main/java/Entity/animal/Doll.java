@@ -5,14 +5,18 @@ import java.util.List;
 import Control.Move;
 import Entity.animal.moving_strategy.AStar;
 import Entity.animal.moving_strategy.Node;
+import static GameRunner.RunBomberman.enemy;
+import static GameRunner.RunBomberman.height;
+import static GameRunner.RunBomberman.id_objects;
+import static GameRunner.RunBomberman.list_kill;
+import static GameRunner.RunBomberman.player;
+import static GameRunner.RunBomberman.width;
 import Graphics.Sprite;
 import javafx.scene.image.Image;
 
-import static GameRunner.RunBomberman.*;
-
 public class Doll extends Animal{
-    private static int swap_kill = 1;
-    private static int count_kill = 0;
+    private int swap_kill = 1;
+    private int count_kill = 0;
 
     public Doll(int x_unit, int y_unit, Image img) {
         super(x_unit, y_unit, img);
@@ -82,13 +86,23 @@ public class Doll extends Animal{
             }
         }
     }
+    private  void kill() {
+        for (Animal animal : enemy) {
+            if (list_kill[animal.getX() / 32][animal.getY() / 32] == 4) {
+                animal.setLife(false);
+            }
+        }
+    }
 
     @Override
     public void update() {
         count_kill++;
+        kill();
         for (Animal animal:enemy) {
-            if (animal instanceof Doll && !animal.life)
+            if (animal instanceof Doll && !animal.life){
                 killDoll(animal);
+                return ;
+            }
         }
         moveDoll();
     }

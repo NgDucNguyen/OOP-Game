@@ -39,6 +39,7 @@ public class Level2 {
         Image transparent = new Image("images/transparent.png");
         author_view.setImage(transparent);
 
+
         Animal enemy1 = new Ballom(5, 5, Sprite.ballom_left_1.getFxImage());
         Animal enemy2 = new Ballom(11, 9, Sprite.ballom_left_1.getFxImage());
         enemy.add(enemy1);

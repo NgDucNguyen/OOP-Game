@@ -41,7 +41,6 @@ public class Level1 {
         player.setImg(Sprite.control_right_2.getFxImage());
         Image transparent = new Image("images/transparent.png");
         author_view.setImage(transparent);
-        
         Animal enemy1 = new Ballom(4, 4, Sprite.ballom_left_1.getFxImage());
         Animal enemy2 = new Ballom(9, 9, Sprite.ballom_left_1.getFxImage());
         Animal enemy3 = new Ballom(22, 6, Sprite.ballom_left_1.getFxImage());
@@ -53,7 +52,6 @@ public class Level1 {
         Animal enemy5 = new Oneal(13, 8, Sprite.oneal_right_1.getFxImage());
         enemy.add(enemy4);
         enemy.add(enemy5);
-
         // set default for enemy
         for (Animal animal : enemy) {
             animal.setLife(true);

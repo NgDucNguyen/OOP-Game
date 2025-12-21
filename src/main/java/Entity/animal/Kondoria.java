@@ -1,17 +1,17 @@
 package Entity.animal;
 
-import javafx.scene.image.Image;
-import Graphics.Sprite;
-
-import static GameRunner.RunBomberman.*;
-
 import Control.Move;
+import static GameRunner.RunBomberman.enemy;
+import static GameRunner.RunBomberman.list_kill;
+import static GameRunner.RunBomberman.width;
+import Graphics.Sprite;
+import javafx.scene.image.Image;
 
 public class Kondoria extends Animal {
 
-    private static int swap_kill = 1;
-    private static int count_kill = 0;
-    private static boolean direction;
+    private int swap_kill = 1;
+    private int count_kill = 0;
+    private boolean direction;
 
     public Kondoria(int x, int y, Image img) {
         super(x, y, img);
@@ -41,13 +41,21 @@ public class Kondoria extends Animal {
             }
         }
     }
-
+    private  void kill() {
+        for (Animal animal : enemy) {
+            if (list_kill[animal.getX() / 32][animal.getY() / 32] == 4) {
+                animal.setLife(false);
+            }
+        }
+    }
 
     @Override
     public void update() {
         count_kill++;
+        kill();
         if (this instanceof Kondoria && !this.life){
             killKondoria(this);
+            return ;
         }
         if (this.y % 16 == 0 && this.x % 16 == 0) {//Đi theo thuật toán lên xuống 
             if (this.x / 32 <= 1 || this.x / 32 >= width - 2)

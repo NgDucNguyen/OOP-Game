@@ -13,7 +13,6 @@ import Entity.animal.Animal;
 import Entity.animal.Bomber;
 import Entity.block.Bomb;
 import Entity.block.Portal;
-import static Entity.block.Portal.is_portal;
 import static Features.SoundManager.updateSound;
 import Graphics.Sprite;
 import static Levels.NextLevel.wait;
@@ -157,7 +156,7 @@ public class RunBomberman extends Application {
             }
         }
 
-        if (enemy.size() == 0 && !is_portal && ! wait) {
+        if (enemy.size() == 0 && !Portal.is_portal && ! wait) {
             Entity portal = new Portal(width - 2, height - 2, Sprite.portal.getFxImage());
             block.add(portal);
             if (player.getX() / 32 == portal.getX() / 32 && player.getY() / 32 == portal.getY() / 32) {
