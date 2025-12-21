@@ -1,31 +1,33 @@
 package GameRunner;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import Control.Menu;
+import static Control.Menu.time;
+import static Control.Menu.time_number;
+import static Control.Menu.updateMenu;
+import Control.Move;
 import Entity.Entity;
 import Entity.animal.Animal;
 import Entity.animal.Bomber;
 import Entity.block.Bomb;
 import Entity.block.Portal;
+import static Entity.block.Portal.is_portal;
+import static Features.SoundManager.updateSound;
 import Graphics.Sprite;
+import static Levels.NextLevel.wait;
+import static Levels.NextLevel.waitToLevelUp;
+import static Levels.NextLevel.waiting_time;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import javafx.scene.canvas.Canvas;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import Control.Menu;
-import Control.Move;
-
-import static Control.Menu.*;
-import static Entity.block.Portal.*;
-import static Features.SoundManager.updateSound;
-import static Levels.NextLevel.*;
 
 public class RunBomberman extends Application {
     /**
@@ -63,10 +65,19 @@ public class RunBomberman extends Application {
         gc = canvas.getGraphicsContext2D();
         Image author = new Image("images/author.png");
         author_view = new ImageView(author);
-        author_view.setX(-400);
-        author_view.setY(-208);
-        author_view.setScaleX(0.5);
-        author_view.setScaleY(0.5);
+        // 1. Reset lại vị trí về góc 0, 32 ( bỏ phần thanh menu)
+        author_view.setX(0); 
+        author_view.setY(32);
+                
+            // 2. Reset lại tỷ lệ về 1 (không thu nhỏ nữa)
+        author_view.setScaleX(1);
+        author_view.setScaleY(1);
+                
+            // 3. Set kích thước full màn hình
+        author_view.setFitWidth(800);
+        author_view.setFitHeight(480);
+            // add image level up to authorView
+        author_view.setImage(author);
         Group root = new Group();
         Menu.createMenu(root);
         root.getChildren().add(canvas);
