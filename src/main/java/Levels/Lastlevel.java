@@ -55,31 +55,37 @@ public class Lastlevel {
 
         while (budget > 0) {
             // Random loại quái định mua
-            int type = rand.nextInt(3); //Chọn random giữa số loại quái
+            List<Integer> affordableTypes = new ArrayList<>();//List những con quái có thể mua được
+            if(budget>=1)  affordableTypes.add(0); // Ballom (
+            if (budget >= 2) affordableTypes.add(1); // Oneal
+            if (budget >= 4) affordableTypes.add(2); // Doll
+            
+            if(affordableTypes.isEmpty())break;//Nếu ko đủ tiền mua cái gì hết
+
+            int typeIndex = rand.nextInt(affordableTypes.size());//Chọn random từ dsach có thể mua
+            int type = affordableTypes.get(typeIndex);
             int cost = 0;
             Animal newEnemy = null;
 
             switch (type) {//Quy định tạo quái với quy luật ở dưới
                 case 0: // Ballom
                     cost = 1;
-                    if (budget >= cost) newEnemy = new Ballom(0, 0, Sprite.ballom_left_1.getFxImage());
+                    newEnemy = new Ballom(0, 0, Sprite.ballom_left_1.getFxImage());
                     break;
                 case 1: // Oneal
                     cost = 2;
-                    if (budget >= cost) newEnemy = new Oneal(0, 0, Sprite.oneal_right_1.getFxImage());
+                    newEnemy = new Oneal(0, 0, Sprite.oneal_right_1.getFxImage());
                     break;
                 case 2: // Doll
                     cost = 4;
-                    if (budget >= cost) newEnemy = new Doll(0, 0, Sprite.doll_left_1.getFxImage());
+                    newEnemy = new Doll(0, 0, Sprite.doll_left_1.getFxImage());
                     break;
             }
 
             if (newEnemy != null) {
                 enemies.add(newEnemy);
                 budget -= cost;
-            } else if (budget < 2) {
-                break;
-            }
+            } 
         }
         return enemies;
     }
