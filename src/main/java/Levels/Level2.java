@@ -3,7 +3,6 @@ package Levels;
 import static Control.Menu.bomb_number;
 import static Control.Menu.time_number;
 import Entity.animal.Animal;
-import Entity.animal.Ballom;
 import static Entity.animal.Bomber.swap_kill;
 import Entity.animal.Kondoria;
 import Entity.animal.Oneal;
@@ -40,10 +39,7 @@ public class Level2 {
         author_view.setImage(transparent);
 
 
-        Animal enemy1 = new Ballom(5, 5, Sprite.ballom_left_1.getFxImage());
-        Animal enemy2 = new Ballom(11, 9, Sprite.ballom_left_1.getFxImage());
-        enemy.add(enemy1);
-        enemy.add(enemy2);
+
 
         Animal enemy3 = new Kondoria(1, 3, Sprite.kondoria_right_1.getFxImage());
         Animal enemy4 = new Kondoria(1, 7, Sprite.kondoria_right_1.getFxImage());
