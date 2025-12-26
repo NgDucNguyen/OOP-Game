@@ -1,10 +1,9 @@
 package Levels;
 
-import javafx.scene.image.Image;
-
-import static GameRunner.RunBomberman.level;
-import static GameRunner.RunBomberman.author_view;
 import static Entity.block.Portal.is_portal;
+import static GameRunner.RunBomberman.author_view;
+import static GameRunner.RunBomberman.level;
+import javafx.scene.image.Image;
 
 public class NextLevel {
     public static boolean wait;
@@ -38,7 +37,14 @@ public class NextLevel {
                         new Level3();
                         break;
                     case 3:
+                        new Level4();
+                        break;
+                    case 4:
+                        new Level5();
+                        break;
+                    case 5:
                         new Level1();
+                        break;
                 }
                 wait = false;
             }
