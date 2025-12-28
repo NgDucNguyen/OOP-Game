@@ -15,6 +15,7 @@ import Entity.block.Bomb;
 import Entity.block.Portal;
 import static Features.SoundManager.updateSound;
 import Graphics.Sprite;
+import Levels.Lastlevel;
 import static Levels.NextLevel.wait;
 import static Levels.NextLevel.waitToLevelUp;
 import static Levels.NextLevel.waiting_time;
@@ -39,21 +40,20 @@ public class RunBomberman extends Application {
     public static int width = 0;
     public static int height = 0;
     public static int level = 1;
-
+    public static int final_level=5;
     public static final List<Entity> block = new ArrayList<>();     // Contains fixed entities
     public static List<Animal> enemy = new ArrayList<>();           // Contains enemy entities
     public static int[][] id_objects;
     public static int[][] list_kill;
-    public static Animal player;
+    public static Bomber player;
     public static boolean running;
     public static ImageView author_view;
-
+    private Lastlevel endlessModeHandler;//Handle cho chế độ endless ở cuối level cuối
     private GraphicsContext gc;
     private Canvas canvas;
 
     private int frame = 1;
     private long last_time;
-
     public static Stage main_stage = null;
     public static boolean isPause = false;
 
@@ -108,14 +108,13 @@ public class RunBomberman extends Application {
                 }
             }
         });
-
         stage.setScene(scene);
-        stage.setTitle("Bomberman by 6_AE_SIEU_NHAN");
+        stage.setTitle("Bomberman by 404 NOT FOUND");
         Image icon = new Image("images/ttsalpha4.0@0.5x.png");
         stage.getIcons().add(icon);
         main_stage = stage;
         main_stage.show();
-
+        endlessModeHandler = new Lastlevel(width, height, id_objects);//Tạo handle đó
         last_time = System.currentTimeMillis();
 
         AnimationTimer timer = new AnimationTimer() {
@@ -155,8 +154,9 @@ public class RunBomberman extends Application {
                 a.setCountToRun(0);
             }
         }
-
-        if (enemy.size() == 0 && !Portal.is_portal && ! wait) {
+        if(enemy.size()==0&&level==final_level){//Ở level cuối bắt đầu chế độ endless 
+            endlessModeHandler.spawnWave(player,enemy);
+        }else if (enemy.size() == 0 && !Portal.is_portal && ! wait) {
             Entity portal = new Portal(width - 2, height - 2, Sprite.portal.getFxImage());
             block.add(portal);
             if (player.getX() / 32 == portal.getX() / 32 && player.getY() / 32 == portal.getY() / 32) {
@@ -181,7 +181,7 @@ public class RunBomberman extends Application {
         long now = System.currentTimeMillis();
         if (now - last_time > 1000) {
             last_time = System.currentTimeMillis();
-            main_stage.setTitle("Bomberman by 6_AE_SIEU_NHAN | " + frame + " frame");
+            main_stage.setTitle("Bomberman by 404 NOT FOUND | " + frame + " frame");
             frame = 0;
 
             time.setText("Time: " + time_number);
