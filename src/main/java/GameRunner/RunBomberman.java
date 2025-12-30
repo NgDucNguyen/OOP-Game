@@ -109,7 +109,7 @@ public class RunBomberman extends Application {
             }
         });
         stage.setScene(scene);
-        stage.setTitle("Bomberman by 404 NOT FOUND");
+        stage.setTitle("Bomberman by 6_AE_SIEU_NHAN");
         Image icon = new Image("images/ttsalpha4.0@0.5x.png");
         stage.getIcons().add(icon);
         main_stage = stage;
@@ -181,7 +181,7 @@ public class RunBomberman extends Application {
         long now = System.currentTimeMillis();
         if (now - last_time > 1000) {
             last_time = System.currentTimeMillis();
-            main_stage.setTitle("Bomberman by 404 NOT FOUND | " + frame + " frame");
+            main_stage.setTitle("Bomberman by 6_AE_SIEU_NHAN | " + frame + " frame");
             frame = 0;
 
             time.setText("Time: " + time_number);
